@@ -8,7 +8,6 @@ import passport from "passport";
 //require("./config/auth")(passport);
 
 import path from 'path';
-import { pathToFileURL } from 'url';
 const app = express();
 
 app.use(express.static(path.join(__dirname, 'public')));
@@ -21,6 +20,10 @@ app.engine('html', require('ejs').renderFile);
 // //Configurando o flash
 // app.use(flash());
 
+//Starting Database
+import startDatabase from './config/database';
+startDatabase();
+
 //Middleware
 app.use((req, res, next) => {
     // res.locals.success_msg = req.flash("success_msg");
@@ -29,6 +32,19 @@ app.use((req, res, next) => {
     // res.locals.user = req.user || null;
     next();
 });
+
+//API LOGIN
+
+const login = require(__dirname + "/API/login/login");
+
+app.use('/', login);
+
+//API USER
+
+const user = require(__dirname + "/API/user/user");
+
+app.use('/', user);
+
 
 app.get('/status',(req, res)=>{
     res.json({
