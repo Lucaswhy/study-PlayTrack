@@ -1,26 +1,39 @@
-import mongoose = require("mongoose");
-const Schema = mongoose.Schema;
+import { Document, Schema, Model, model } from 'mongoose'
+const mongoose = require('mongoose')
+const AutoIncrement = require('mongoose-sequence')(mongoose)
 
-const User  = new Schema({
+interface IUser {
+    Name: String,
+    Email: String,
+    Password: String,
+    Avatar?: String
+}
 
-    Name: {
-        type: String,
-        required: true
-    },
+export interface UserModel extends IUser, Document {}
 
-    Email: {
-        type: String,
-        required: true,
-        unique: true
-    },
+const UserSchema = new Schema({
 
-    Password: {
-        type: String,
-        required: true
-    },
+  Name: {
+    type: String,
+    required: true
+  },
 
-    Avatar: String,
+  Email: {
+    type: String,
+    required: true,
+    unique: true
+  },
 
-});
+  Password: {
+    type: String,
+    required: true
+  },
+  Avatar: String
 
-module.exports = mongoose.model("user", User)
+}, {
+  timestamps: true
+})
+
+UserSchema.plugin(AutoIncrement, { inc_field: 'Id' })
+
+export const User: Model<UserModel> = model<UserModel>('User', UserSchema)
