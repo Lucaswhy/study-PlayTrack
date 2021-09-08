@@ -58,6 +58,11 @@ import user from './API/user'
 
 app.use('/', user)
 
+// eslint-disable-next-line import/first
+import music from './API/music'
+
+app.use('/', music)
+
 app.get('/status', (req, res) => {
   res.json({
     error: false,
