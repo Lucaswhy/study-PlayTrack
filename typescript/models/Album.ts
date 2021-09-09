@@ -1,5 +1,5 @@
 import { Document, Schema, Model, model } from 'mongoose'
-import { IMusic, MusicSchema } from './Music'
+import { IMusic } from './Music'
 
 const mongoose = require('mongoose')
 const AutoIncrement = require('mongoose-sequence')(mongoose)
@@ -23,7 +23,8 @@ const AlbumSchema = new Schema({
   Artist: String,
 
   Music: {
-    type: [MusicSchema],
+    type: [Schema.Types.ObjectId],
+    ref: 'Music',
     default: []
   },
 

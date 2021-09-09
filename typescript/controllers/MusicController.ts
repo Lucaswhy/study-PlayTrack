@@ -12,14 +12,14 @@ class MusicController {
     } catch (e) {
       console.log('Erro no index de Música. log:' + e)
       return (res.status(500).json({
-        error: false,
+        error: true,
         data: 'Houve um erro no sistema. Por favor tente novamente mais tarde.'
       }))
     }
   }
 
   public async selectOne (req: Request, res: Response): Promise<Response> {
-    const music = await Music.find({ Title: { $regex: req.params.title, $options: 'i' } }).exec()
+    const music = await (<any>Music).find({ Title: { $regex: req.params.title, $options: 'i' } }).exec()
     return (res.status(200).json({
       error: false,
       data: music
@@ -27,7 +27,7 @@ class MusicController {
   }
 
   public async create (req: Request, res: Response): Promise<Response> {
-    if (req.body.data == null) return res.status(204).json({ error: false, data: 'Nenhum dado informado' })
+    if (req.body.data == null) return res.status(204).json({ error: true, data: 'Nenhum dado informado' })
     try {
       const newMusic: MusicModel = await Music.create(req.body.data)
       return res.status(200).json({
@@ -44,7 +44,7 @@ class MusicController {
   }
 
   public async update (req: Request, res: Response): Promise<Response> {
-    if (req.body.data == null) return res.status(204).json({ error: false, data: 'Nenhum dado informado' })
+    if (req.body.data == null) return res.status(204).json({ error: true, data: 'Nenhum dado informado' })
     try {
       await Music.findOne({ IdMusic: req.params.id }).then((music) => {
         if (!music) {

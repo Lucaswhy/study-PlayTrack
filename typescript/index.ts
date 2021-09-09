@@ -63,6 +63,16 @@ import music from './API/music'
 
 app.use('/', music)
 
+// eslint-disable-next-line import/first
+import playlist from './API/playlist'
+
+app.use('/', playlist)
+
+// eslint-disable-next-line import/first
+import album from './API/album'
+
+app.use('/', album)
+
 app.get('/status', (req, res) => {
   res.json({
     error: false,

@@ -12,14 +12,14 @@ class UserController {
         }))
       } else {
         return (res.status(204).json({
-          error: false,
+          error: true,
           data: 'Não há nenhum usuário cadastrado no sistema.'
         }))
       }
     } catch (e) {
       console.log('Erro no index do User. log:' + e)
       return (res.status(500).json({
-        error: false,
+        error: true,
         data: 'Houve um erro no sistema. Por favor tente novamente mais tarde.'
       }))
     }
@@ -27,7 +27,7 @@ class UserController {
 
   public async selectOne (req: Request, res: Response): Promise<Response> {
     const user = await User.findOne({ Id: req.params.id })
-    if (user === null) return (res.status(404).json({ error: false, data: 'Esse usuário não existe no sistema.' }))
+    if (user === null) return (res.status(404).json({ error: true, data: 'Esse usuário não existe no sistema.' }))
 
     else {
       return (res.status(200).json({
@@ -38,7 +38,7 @@ class UserController {
   }
 
   public async create (req: Request, res: Response): Promise<Response> {
-    if (req.body.data == null) return res.status(204).json({ error: false, data: 'Nenhum dado informado' })
+    if (req.body.data == null) return res.status(204).json({ error: true, data: 'Nenhum dado informado' })
     try {
       await User.findOne({ Email: req.body.data.Email }).then((user) => {
         if (user) {
@@ -60,7 +60,7 @@ class UserController {
   }
 
   public async update (req: Request, res: Response): Promise<Response> {
-    if (req.body.data == null) return res.status(204).json({ error: false, data: 'Nenhum dado informado' })
+    if (req.body.data == null) return res.status(204).json({ error: true, data: 'Nenhum dado informado' })
     try {
       await User.findOne({ Email: req.body.data.Email }).then((user) => {
         if (!user) {
