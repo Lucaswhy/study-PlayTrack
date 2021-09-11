@@ -1,30 +1,20 @@
 import express from 'express'
 import session from 'express-session'
+import path from 'path'
 // import flash from 'connect-flash'
 import cors from 'cors'
-// import passport from 'passport'
-// require("./config/auth")(passport);
-import path from 'path'
+const passport = require('passport')
+require('./config/auth')(passport)
 
-// //Configurando passport
-// app.use(passport.initialize());
-// app.use(passport.session());
-// //Configurando o flash
-// app.use(flash());
+const app = express()
 
 // Starting Database
 import startDatabase from './config/database'
 
-const app = express()
 app.use(express.static(path.join(__dirname, 'public')))
-app.set('view engine', 'html')
-app.engine('html', require('ejs').renderFile)
 startDatabase()
 
 // Middleware
-app.use(express.json({}))
-app.use(cors())
-
 app.use(session({
   secret: 'Playtrack',
   resave: true,
@@ -32,14 +22,23 @@ app.use(session({
   cookie: { maxAge: (2 * 60 * 60 * 1000) }
 }))
 
+// Json parser from express + cors
+app.use(express.json({}))
+app.use(express.urlencoded({ extended: false }))
+app.use(cors())
+
+// starting View engine
+app.set('view engine', 'html')
+app.engine('html', require('ejs').renderFile)
+
+// starting Passport
+app.use(passport.initialize())
+app.use(passport.session())
+
 app.use((req, res, next) => {
   req.header('Origin')
   res.header('Access-Control-Allow-Origin', 'true')
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE')
-  // res.locals.success_msg = req.flash("success_msg");
-  // res.locals.error_msg = req.flash("error_msg");
-  // res.locals.error = req.flash("error");
-  // res.locals.user = req.user || null;
   app.use(cors())
   next()
 })
@@ -58,15 +57,21 @@ import user from './API/user'
 
 app.use('/', user)
 
+// API MUSIC
+
 // eslint-disable-next-line import/first
 import music from './API/music'
 
 app.use('/', music)
 
+// API PLAYLIST
+
 // eslint-disable-next-line import/first
 import playlist from './API/playlist'
 
 app.use('/', playlist)
+
+// API ALBUM
 
 // eslint-disable-next-line import/first
 import album from './API/album'

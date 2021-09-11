@@ -40,7 +40,7 @@ class UserController {
   public async create (req: Request, res: Response): Promise<Response> {
     if (req.body.data == null) return res.status(204).json({ error: true, data: 'Nenhum dado informado' })
     try {
-      await User.findOne({ Email: req.body.data.Email }).then((user) => {
+      await User.findOne({ Email: req.body.data.Email }).then((user: UserModel | null) => {
         if (user) {
           return res.status(208).json({ error: false, data: 'E-mail já cadastrado.' })
         }
@@ -62,7 +62,7 @@ class UserController {
   public async update (req: Request, res: Response): Promise<Response> {
     if (req.body.data == null) return res.status(204).json({ error: true, data: 'Nenhum dado informado' })
     try {
-      await User.findOne({ Email: req.body.data.Email }).then((user) => {
+      await User.findOne({ Email: req.body.data.Email }).then((user: UserModel | null) => {
         if (!user) {
           return res.status(208).json({ error: false, data: 'Esse usuário não existe.' })
         }

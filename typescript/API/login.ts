@@ -1,14 +1,13 @@
 import express from 'express'
-// import passport from 'passport'
+import passport from 'passport'
 
 const route = express.Router()
 
-route.post('/valida_usuario', (req, res) => {
-  console.log(req.body)
-  res.status(200).json({
-    error: false,
-    message: 'API up!'
-  })
+route.post('/signin', (req, res, next) => {
+  passport.authenticate('local', {
+    successRedirect: '/home',
+    failureRedirect: '/'
+  })(req, res, next)
 })
 
 export default route
