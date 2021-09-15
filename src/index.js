@@ -1,12 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
+import LeftMenu from './components/LeftMenu';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <LeftMenu />
   </React.StrictMode>,
   document.getElementById('root')
 );
