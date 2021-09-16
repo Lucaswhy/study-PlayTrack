@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import LeftMenu from './components/LeftMenu';
 import reportWebVitals from './reportWebVitals';
+import './assets/css/App.css'
 
 ReactDOM.render(
   <React.StrictMode>

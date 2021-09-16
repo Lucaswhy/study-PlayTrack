@@ -1,76 +1,110 @@
 import React, { ReactElement } from "react";
 import axios from 'axios';
 
-function LeftMenu() {
-  return (
-    <div className="menu">
-        <div className="menu__main">
-                <figure>
-                    <a href="/#">
-                    <span>
-                        Início
-                    </span>
-                    </a>
-                </figure>
-                <figure>
-                    <a href="/#">
-                    <span>
-                        Buscar
-                    </span>
-                    </a>
-                </figure>
-                <figure>
-                    <a href="/#">
-                    <span>
-                        Sua Biblioteca
-                    </span>
-                    </a>
-                </figure>
-                <figure>
-                    <a href="/#">
-                    <span>
-                        Criar playlist
-                    </span>
-                    </a>
-                </figure>
-                <figure>
-                    <a href="/#">
-                    <span>
-                        Músicas Curtidas
-                    </span>
-                    </a>
-                </figure>
-        </div>
-        <hr/>
-        <div className="menu__playlist">
-            {listPlaylist()}
-        </div>
-    </div>
-  );
+interface IPlaylist {
+    Name: String,
+    IdPlaylist: Number,
 }
 
-async function listPlaylist(): Promise<Array<ReactElement>>{
+interface IState {
+    error: String,
+    isLoaded: Boolean,
+    items: Array<IPlaylist>; 
+}
 
-    interface IPlaylist {
-        Name: String,
-        IdPlaylist: Number,
+class LeftMenu extends React.Component<{}, IState> {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+          error: '',
+          isLoaded: false,
+          items: []
+        };
     }
 
-    const playlist: Array<IPlaylist> = await axios.get(`http://localhost:8080/api/playlist`)
-    .then(res => {
-      return res.data;
-    })
+    componentDidMount() {
+        axios.get(`http://localhost:8080/api/playlist`)
+          .then(res =>{
+              this.setState({
+                isLoaded: true,
+                items: res.data.data
+              })
+          },(error: String) => {
+            this.setState({
+                error: error,
+                isLoaded: true
+            });
+          });
+    }
 
-    console.log('eu estou aqui com o playlist' + playlist);
+    render(){
+        const { error, isLoaded, items } = this.state;
 
-    let a: Array<ReactElement> = [];
+        if (error !== '') {
+            return <div>Error: {error}</div>;
+          } else if (!isLoaded) {
+            return <span>Loading playlists...</span>;
+          } else {
+            return (
+                <div className="menu">
+                    <div className="menu__main">
+                            <figure>
+                                <a href="/#">
+                                <span>
+                                    Início
+                                </span>
+                                </a>
+                            </figure>
+                            <figure>
+                                <a href="/#">
+                                <span>
+                                    Buscar
+                                </span>
+                                </a>
+                            </figure>
+                            <figure>
+                                <a href="/#">
+                                <span>
+                                    Sua Biblioteca
+                                </span>
+                                </a>
+                            </figure>
+                            <figure>
+                                <a href="/#">
+                                <span>
+                                    Criar playlist
+                                </span>
+                                </a>
+                            </figure>
+                            <figure>
+                                <a href="/#">
+                                <span>
+                                    Músicas Curtidas
+                                </span>
+                                </a>
+                            </figure>
+                            <hr/>
+                    <div className="menu__playlist">
+                        {listPlaylist(items)}
+                    </div>
+                    </div>
+                </div>
+            );
+        }
+    }
+}
+
+function listPlaylist(playlist: Array<IPlaylist>): Array<ReactElement>{
+
+    let element: Array<ReactElement> = [];
+
     if(playlist.length > 0 ){
         playlist.forEach(item => {
-            a.push(<span key={item.IdPlaylist.toString()}>{item.Name}</span>);
+            element.push(<p key={item.IdPlaylist.toString()}>{item.Name}</p>);
         });
     }
-    
-    return a
+    return element
 }
 
 export default LeftMenu;
