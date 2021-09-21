@@ -1,6 +1,8 @@
 import express from 'express'
 import session from 'express-session'
 import path from 'path'
+// Starting Database
+import startDatabase from './config/database'
 // import flash from 'connect-flash'
 import cors from 'cors'
 const passport = require('passport')
@@ -8,10 +10,7 @@ require('./config/auth')(passport)
 
 const app = express()
 
-// Starting Database
-import startDatabase from './config/database'
-
-app.use(express.static(path.join(__dirname, 'public')))
+app.use(express.static(path.join('../public')))
 startDatabase()
 
 // Middleware
@@ -36,6 +35,7 @@ app.use(passport.initialize())
 app.use(passport.session())
 
 app.use((req, res, next) => {
+  res.locals.user = req.user || null
   req.header('Origin')
   res.header('Access-Control-Allow-Origin', 'true')
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE')
@@ -86,7 +86,7 @@ app.get('/status', (req, res) => {
 })
 
 app.get('*', function (req, res) {
-  res.render('../../public/index')
+  res.render('../public/index.html')
 })
 
 const PORT = 8080

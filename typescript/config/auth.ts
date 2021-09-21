@@ -25,7 +25,6 @@ module.exports = function (passport: any) {
 
   passport.deserializeUser((user: UserModel, done: any) => {
     User.find({ user: user }, (err, user) => {
-      console.log('Deserializando usuario: '); console.log(user)
       done(err, user)
     })
   })
