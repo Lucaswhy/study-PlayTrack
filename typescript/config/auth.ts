@@ -20,11 +20,12 @@ module.exports = function (passport: any) {
 
   passport.serializeUser((user: UserModel, done: any) => {
     console.log('Serializando user: '); console.log(user.Name)
-    done(null, user)
+    done(null, user.Id)
   })
 
-  passport.deserializeUser((user: UserModel, done: any) => {
-    User.find({ user: user }, (err, user) => {
+  passport.deserializeUser((id: Number, done: any) => {
+    User.find({ Id: id }, (err, user: Array<UserModel>) => {
+      console.log('Deserializando: ' + user[0].Name)
       done(err, user)
     })
   })

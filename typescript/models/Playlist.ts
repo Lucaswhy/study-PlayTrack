@@ -13,7 +13,7 @@ export interface IPlaylist {
 
 export interface PlaylistModel extends IPlaylist, Document {}
 
-const PlaylistSchema = new Schema({
+export const PlaylistSchema = new Schema({
 
   Name: {
     type: String,

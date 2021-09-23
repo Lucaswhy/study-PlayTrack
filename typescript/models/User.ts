@@ -1,15 +1,26 @@
 import { Document, Schema, Model, model } from 'mongoose'
 import { IMusic, MusicSchema } from './Music'
+import { IPlaylist, PlaylistSchema } from './Playlist'
 const mongoose = require('mongoose')
 const AutoIncrement = require('mongoose-sequence')(mongoose)
 
-interface IUser {
+export interface IUser {
+    Id?: Number,
     Name: String,
     Email: String,
     Password: String,
     Avatar?: String,
     Music?: IMusic,
-    Like?: IMusic
+    Playlist?: IPlaylist,
+}
+
+export interface IUserProtected {
+  Id?: Number,
+  Name: String,
+  Email: String,
+  Avatar?: String,
+  Music?: IMusic,
+  Playlist?: IPlaylist
 }
 
 export interface UserModel extends IUser, Document {}
@@ -39,8 +50,8 @@ const UserSchema = new Schema({
     default: []
   },
 
-  Like: {
-    type: [MusicSchema],
+  Playlist: {
+    type: [PlaylistSchema],
     default: []
   }
 
