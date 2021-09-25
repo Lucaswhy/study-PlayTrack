@@ -27,7 +27,7 @@ class UserController {
 
   public async selectOne (req: Request, res: Response): Promise<Response> {
     const idParams : Number | undefined = isNaN(parseInt(req.params.id)) ? undefined : parseInt(req.params.id)
-    const user = await User.findOne({ Id: idParams })
+    const user = await User.findOne({ Id: idParams }).populate({ path: 'Music' }).populate({ path: 'Playlist' }).populate({ path: 'Album' })
     if (user === null) return (res.status(404).json({ error: true, data: 'Esse usuário não existe no sistema.' }))
 
     else {

@@ -19,7 +19,7 @@ class PlaylistController {
   }
 
   public async selectOne (req: Request, res: Response): Promise<Response> {
-    const playlist = await (<any>Playlist).find({ Name: { $regex: req.params.name, $options: 'i' } }).exec()
+    const playlist = await (<any>Playlist).find({ Name: { $regex: req.params.name, $options: 'i' } }).populate({ path: 'Music' }).exec()
     return (res.status(200).json({
       error: false,
       data: playlist

@@ -19,7 +19,7 @@ class AlbumController {
   }
 
   public async selectOne (req: Request, res: Response): Promise<Response> {
-    const album = await (<any>Album).find({ Name: { $regex: req.params.name, $options: 'i' } }).exec()
+    const album = await (<any>Album).find({ Name: { $regex: req.params.name, $options: 'i' } }).populate({ path: 'Music' }).exec()
     return (res.status(200).json({
       error: false,
       data: album

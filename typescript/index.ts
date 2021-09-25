@@ -11,6 +11,7 @@ require('./config/auth')(passport)
 const app = express()
 
 app.use(express.static(path.join('../public')))
+app.set('views', path.join('../public'))
 startDatabase()
 
 // Middleware
@@ -86,7 +87,7 @@ app.get('/status', (req, res) => {
 })
 
 app.get('*', function (req, res) {
-  res.render('../public/index.html')
+  res.render('/index')
 })
 
 const PORT = 8080

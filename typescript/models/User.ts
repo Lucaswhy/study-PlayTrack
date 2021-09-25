@@ -1,6 +1,7 @@
 import { Document, Schema, Model, model } from 'mongoose'
-import { IMusic, MusicSchema } from './Music'
-import { IPlaylist, PlaylistSchema } from './Playlist'
+import { IMusic } from './Music'
+import { IPlaylist } from './Playlist'
+import { IAlbum } from './Album'
 const mongoose = require('mongoose')
 const AutoIncrement = require('mongoose-sequence')(mongoose)
 
@@ -12,6 +13,7 @@ export interface IUser {
     Avatar?: String,
     Music?: IMusic,
     Playlist?: IPlaylist,
+    Album?: IAlbum
 }
 
 export interface IUserProtected {
@@ -46,12 +48,20 @@ const UserSchema = new Schema({
   Avatar: String,
 
   Music: {
-    type: [MusicSchema],
+    type: [Schema.Types.ObjectId],
+    ref: 'Music',
     default: []
   },
 
   Playlist: {
-    type: [PlaylistSchema],
+    type: [Schema.Types.ObjectId],
+    ref: 'Playlist',
+    default: []
+  },
+
+  Album: {
+    type: [Schema.Types.ObjectId],
+    ref: 'Album',
     default: []
   }
 
