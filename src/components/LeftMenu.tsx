@@ -1,4 +1,4 @@
-import React, { ReactElement } from "react";
+import React from "react";
 import axios from 'axios';
 
 interface IPlaylist {
@@ -32,8 +32,7 @@ class LeftMenu extends React.Component<{}, IState> {
               })
           },(error: String) => {
             this.setState({
-                error: error,
-                isLoaded: true
+                isLoaded: true,
             });
           });
     }
@@ -42,9 +41,9 @@ class LeftMenu extends React.Component<{}, IState> {
         const { error, isLoaded, items } = this.state;
 
         if (error !== '') {
-            return <div>Error: {error}</div>;
+            return <div>Error: Ocorreu um erro, tente novamente mais tarde! :( </div>;
           } else if (!isLoaded) {
-            return <span>Loading playlists...</span>;
+            return <div className="menu"><span>Loading playlists...</span></div>;
           } else {
             return (
                 <div className="menu">
@@ -86,25 +85,13 @@ class LeftMenu extends React.Component<{}, IState> {
                             </figure>
                             <hr/>
                     <div className="menu__playlist">
-                        {listPlaylist(items)}
+                        {items.map(item => <p key={item.IdPlaylist.toString()}>{item.Name}</p>)}
                     </div>
                     </div>
                 </div>
             );
         }
     }
-}
-
-function listPlaylist(playlist: Array<IPlaylist>): Array<ReactElement>{
-
-    let element: Array<ReactElement> = [];
-
-    if(playlist.length > 0 ){
-        playlist.forEach(item => {
-            element.push(<p key={item.IdPlaylist.toString()}>{item.Name}</p>);
-        });
-    }
-    return element
 }
 
 export default LeftMenu;
