@@ -37,10 +37,10 @@ app.use(passport.session())
 
 app.use((req, res, next) => {
   res.locals.user = req.user || null
-  req.header('Origin')
-  res.header('Access-Control-Allow-Origin', 'true')
-  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE')
-  app.use(cors())
+  //  req.header('Origin')
+  //  res.header('Access-Control-Allow-Origin', 'true')
+  //  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE')
+  //  app.use(cors())
   next()
 })
 

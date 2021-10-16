@@ -22,7 +22,8 @@ export interface IUserProtected {
   Email: String,
   Avatar?: String,
   Music?: IMusic,
-  Playlist?: IPlaylist
+  Playlist?: IPlaylist,
+  Album?: IAlbum
 }
 
 export interface UserModel extends IUser, Document {}

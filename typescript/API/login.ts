@@ -22,18 +22,19 @@ route.post('/api/login', (req, res, next) => {
       // @ts-ignore
       const reqUser : Array<IUser> = <IUser>req.user
       if (req.user !== undefined) {
-        const a : IUserProtected = {
+        const userProtected : IUserProtected = {
           Id: <Number>reqUser[0].Id,
           Name: <String>reqUser[0].Name,
           Email: <String>reqUser[0].Email,
           Avatar: <String>reqUser[0].Avatar,
           Music: <any>reqUser[0].Music,
-          Playlist: <any>reqUser[0].Playlist
+          Playlist: <any>reqUser[0].Playlist,
+          Album: <any>reqUser[0].Album
         }
-        return a
+        return userProtected
       } else {
-        const a : null = null
-        return a
+        const userProtected : null = null
+        return userProtected
       }
     }
 
