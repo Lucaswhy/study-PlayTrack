@@ -2,12 +2,12 @@
   "name": "study-playtrack",
   "version": "1.0.0",
   "description": "A project to study and do something like a spotify in Node, Mongo, React and Typescript.",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "tsc": "tsc --watch",
-    "start": "tsc && cd scripts && node index.js",
-    "dev": "cd scripts && nodemon index.js",
+    "start": "tsc && cd scripts && node server.js",
+    "dev": "cd scripts && nodemon server.js",
     "lint": "eslint --ext .ts --ignore-path .gitignore ."
   },
   "repository": {
@@ -55,6 +55,7 @@
     "mongoose-sequence": "^5.3.1",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
-    "react": "^17.0.2"
+    "react": "^17.0.2",
+    "typeorm": "^0.2.41"
   }
 }
